@@ -20,20 +20,41 @@ public class Phase1 {
     }
 
     static class ReaderThread implements Runnable{
+        @Override
         public void run(){
-            System.out.println("This thread is reading!");
+            try{
+                System.out.println("Reader started");
+                Thread.sleep(500);
+                System.out.println("Reader finished");
+            } catch (InterruptedException e){
+                System.out.println("Reader interrupted");
+            }
         }
     }
 
     static class WriterThread implements Runnable{
+        @Override
         public void run(){
-            System.out.println("This thread is writing!");
+            try{
+                System.out.println("Writer started");
+                Thread.sleep(1000);
+                System.out.println("Writer finished");
+            } catch (InterruptedException e){
+                System.out.println("Writer interrupted");
+            }
         }
     }
 
     static class CalculateThread implements Runnable{
+        @Override
         public void run(){
-            System.out.println("This thread is calculating!");
+            try{
+                System.out.println("Calculator started");
+                Thread.sleep(800);
+                System.out.println("Calculator finished");
+            } catch (InterruptedException e){
+                System.out.println("Calculator interrupted");
+            }
         }
     }
 }
