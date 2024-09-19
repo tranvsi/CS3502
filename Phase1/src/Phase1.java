@@ -13,7 +13,7 @@ public class Phase1 {
             writer.join();
             calculator.join();
         } catch (InterruptedException e){
-            e.printStackTrace();
+            System.err.println("Main has been interrupted");
         }
 
         System.out.println("Threads have finished their tasks. Program closing...");
