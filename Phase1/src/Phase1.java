@@ -1,5 +1,8 @@
 public class Phase1 {
     public static void main(String[] args){
+        Thread reader = new Thread(new ReaderThread(), "Reader");
+        Thread writer = new Thread(new WriterThread(), "Writer");
+        Thread calculator = new Thread(new CalculateThread(), "Calculator");
 
     }
 
