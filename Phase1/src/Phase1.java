@@ -4,6 +4,9 @@ public class Phase1 {
         Thread writer = new Thread(new WriterThread(), "Writer");
         Thread calculator = new Thread(new CalculateThread(), "Calculator");
 
+        reader.start();
+        writer.start();
+        calculator.start();
     }
 
     static class ReaderThread implements Runnable{
