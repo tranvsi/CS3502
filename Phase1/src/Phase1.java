@@ -15,6 +15,8 @@ public class Phase1 {
         } catch (InterruptedException e){
             e.printStackTrace();
         }
+
+        System.out.println("Threads have finished their tasks. Program closing...");
     }
 
     static class ReaderThread implements Runnable{
