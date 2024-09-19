@@ -7,6 +7,14 @@ public class Phase1 {
         reader.start();
         writer.start();
         calculator.start();
+
+        try{
+            reader.join();
+            writer.join();
+            calculator.join();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     static class ReaderThread implements Runnable{
