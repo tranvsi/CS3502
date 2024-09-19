@@ -25,6 +25,7 @@ public class Phase1 {
 
         //Final print statement notifying user of program termination
         System.out.println("Threads have finished their tasks. Program closing...");
+        System.exit(0);
     }
 
     //Static class for reader thread which implements runnable
