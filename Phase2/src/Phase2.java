@@ -60,7 +60,12 @@ public class Phase2 {
         }
 
         public double returnBalance(){
-            return balance;
+            lock.lock();
+            try {
+                return balance;
+            } finally {
+                lock.unlock();
+            }
         }
     }
 }
