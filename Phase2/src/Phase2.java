@@ -24,7 +24,9 @@ public class Phase2 {
 
     static class BankAccount{
         private double balance;
-        public synchronized void deposit(double money){
+        private final ReentrantLock lock = new ReentrantLock();
+
+        public void deposit(double money){
             double newBalance = balance + money;
             try{
                 Thread.sleep(500);
@@ -34,7 +36,7 @@ public class Phase2 {
             balance = newBalance;
         }
 
-        public synchronized void withdraw(double money){
+        public void withdraw(double money){
             double newBalance = balance - money;
             try{
                 Thread.sleep(500);
