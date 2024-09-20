@@ -12,7 +12,7 @@ public class Phase2 {
         }, "WithdrawThread");
         deposit.start();
         withdraw.start();
-        try{
+        try {
             deposit.join();
             withdraw.join();
         } catch (InterruptedException e){
@@ -28,7 +28,7 @@ public class Phase2 {
 
         public void deposit(double money){
             lock.lock();
-            try{
+            try {
                 double newBalance = balance + money;
                 Thread.sleep(100);
                 balance = newBalance;
@@ -41,16 +41,25 @@ public class Phase2 {
         }
 
         public void withdraw(double money){
-            double newBalance = balance - money;
-            try{
-                Thread.sleep(500);
+            lock.lock();
+            try {
+                if (balance >= money){
+                    double newBalance = balance - money;
+                    Thread.sleep(100);
+                    balance = newBalance;
+                    System.out.println("Withdrew $" + money + ". Current balance is $" + balance);
+                }
+                else {
+                    System.out.println("Insufficient balance!");
+                }
             } catch (InterruptedException e){
-                System.out.println("Withdraw error");
+                System.out.println("Withdrawal Error");
+            } finally {
+                lock.unlock();
             }
-            balance = newBalance;
         }
 
-        public synchronized double returnBalance(){
+        public double returnBalance(){
             return balance;
         }
     }
