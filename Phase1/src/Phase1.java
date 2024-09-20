@@ -106,5 +106,9 @@ public class Phase1 {
             }
             balance = newBalance;
         }
+
+        public synchronized double returnBalance(){
+            return balance;
+        }
     }
 }
