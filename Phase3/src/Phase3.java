@@ -7,6 +7,9 @@ public class Phase3 {
 
         Thread thread1 = new Thread(() -> transfer(account1,account2,500), "Transfer1to2");
         Thread thread2 = new Thread(() -> transfer(account2,account1,500), "Transfer2to1");
+
+        thread1.start();
+        thread2.start();
     }
 
     static class BankAccount {
