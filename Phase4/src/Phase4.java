@@ -3,7 +3,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Phase4 {
     public static void main(String[] args){
+        BankAccount bank1 = new BankAccount(5000);
+        BankAccount bank2 = new BankAccount(5000);
 
+        Thread thread1 = new Thread(() -> transfer(bank1, bank2, 250), "Transfer1to2");
+        Thread thread2 = new Thread(() -> transfer(bank2, bank1, 250), "Transfer2to1");
+
+        thread1.start();
+        thread2.start();
     }
 
     public static void transfer(BankAccount from, BankAccount to, double amount){
