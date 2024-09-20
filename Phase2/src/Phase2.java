@@ -27,13 +27,17 @@ public class Phase2 {
         private final ReentrantLock lock = new ReentrantLock();
 
         public void deposit(double money){
-            double newBalance = balance + money;
+            lock.lock();
             try{
-                Thread.sleep(500);
+                double newBalance = balance + money;
+                Thread.sleep(100);
+                balance = newBalance;
+                System.out.println("Deposited $" + money + ". Current balance is $" + balance);
             } catch (InterruptedException e){
                 System.out.println("Deposit Error!");
+            } finally {
+                lock.unlock();
             }
-            balance = newBalance;
         }
 
         public void withdraw(double money){
