@@ -2,23 +2,30 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Phase2 {
     public static void main(String[] args){
         BankAccount bank = new BankAccount();
+
         Thread deposit = new Thread(() -> {
-            bank.deposit(100.0);
-            System.out.println("$100 has been deposited.");
+            for (int i = 0; i < 20; i++){
+                bank.deposit(10);
+            }
         }, "DepositThread");
+
         Thread withdraw = new Thread(() -> {
-            bank.withdraw(75.0);
-            System.out.println("$75 has been withdrawn.");
+            for (int i = 0; i < 15; i++){
+                bank.withdraw(5);
+            }
         }, "WithdrawThread");
+
         deposit.start();
         withdraw.start();
+
         try {
             deposit.join();
             withdraw.join();
         } catch (InterruptedException e){
             System.err.println("Main thread error");
         }
-        System.out.println("Account balance: $" + bank.returnBalance());
+
+        System.out.println("Final balance: $" + bank.returnBalance());
         System.exit(0);
     }
 
