@@ -1,6 +1,27 @@
 public class Phase1 {
     public static void main(String[] args){
+        BankAccount bank = new BankAccount();
 
+        Thread deposit = new Thread(() -> {
+            bank.deposit(100.0);
+            System.out.println("$100 has been deposited.");
+        }, "DepositThread");
+        Thread withdraw = new Thread(() -> {
+            bank.withdraw(75.0);
+            System.out.println("$75 has been withdrawn.");
+        }, "WithdrawThread");
+
+        deposit.start();
+        withdraw.start();
+
+        try{
+            deposit.join();
+            withdraw.join();
+        } catch (InterruptedException e){
+            System.err.println("Main thread error");
+        }
+
+        System.out.println("Account balance: $" + bank.returnBalance());
     }
 
 
