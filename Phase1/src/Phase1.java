@@ -81,4 +81,8 @@ public class Phase1 {
             }
         }
     }
+
+    static class BankAccount{
+        private double balance;
+    }
 }
