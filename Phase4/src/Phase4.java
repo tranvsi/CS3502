@@ -6,7 +6,45 @@ public class Phase4 {
 
     }
 
-    public static void transfer(){
+    public static void transfer(BankAccount from, BankAccount to, double amount){
+        BankAccount firstAcc = from.compareTo(to) < 0 ? from:to;
+        BankAccount secondAcc = from.compareTo(to) < 0 ? to:from;
+
+        try {
+            if (firstAcc.getLock().tryLock(1, TimeUnit.SECONDS)) {
+                System.out.println(Thread.currentThread().getName() + " lock " + firstAcc);
+
+                try {
+                    if (secondAcc.getLock().tryLock(1, TimeUnit.SECONDS)) {
+                        System.out.println(Thread.currentThread().getName() + " locked " + secondAcc);
+                        if (from.getBalance() >= amount){
+                            from.withdraw(amount);
+                            to.deposit(amount);
+                            System.out.println("Moved $" + amount " from " + from + " to " + to);
+                        }
+                        else {
+                            System.out.println("Insufficient balance to transfer from " + from + " to " + to);
+                        }
+                    }
+                    else {
+                        System.out.println(Thread.currentThread().getName() + " failed to lock " + secondAcc);
+                    }
+                } finally {
+                    if (secondAcc.getLock().isHeldByCurrentThread()) {
+                        secondAcc.getLock().unlock();
+                    }
+                }
+            }
+            else {
+                System.out.println(Thread.currentThread().getName() + " failed to lock " + firstAcc);
+            }
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } finally {
+            if (firstAcc.getLock().isHeldByCurrentThread()) {
+                firstAcc.getLock().unlock();
+            }
+        }
 
     }
 
