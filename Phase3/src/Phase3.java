@@ -1,5 +1,4 @@
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.TimeUnit;
 
 public class Phase3 {
     public static void main(String[] args){
@@ -33,6 +32,39 @@ public class Phase3 {
         @Override
         public String toString(){
             return "Account@" + hashCode();
+        }
+    }
+
+    public static void transfer(BankAccount from, BankAccount to, double amount){
+        ReentrantLock fromLock = from.getLock();
+        ReentrantLock toLock = to.getLock();
+
+        System.out.println(Thread.currentThread().getName() + " attempting to lock " + to);
+        fromLock.lock();
+        System.out.println(Thread.currentThread().getName() + " locked " + from);
+
+        try {
+            Thread.sleep(500);
+
+            System.out.println(Thread.currentThread().getName() + " attempting to lock " + from);
+            toLock.lock();
+            System.out.println(Thread.currentThread().getName() + " locked " + to);
+
+            try {
+                if (from.getBalance() >= amount) {
+                    from.withdraw(amount);
+                    to.deposit(amount);
+                    System.out.println("Transferred " + amount + " from " + from + " to " + to);
+                } else {
+                    System.out.println("Not enough balance to transfer " + amount + " from " + from + " to " + to);
+                }
+            } finally {
+                toLock.unlock();
+            }
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } finally {
+            fromLock.unlock();
         }
     }
 }
